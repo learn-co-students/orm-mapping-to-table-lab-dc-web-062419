@@ -43,9 +43,19 @@ class Student
   end
 
   #the 'student' here is a hash of data
-  def create(student)
+  def self.create(student)
+  #  binding.pry
+    # student.each {|k,v| DB[:conn].execute("ALTER TABLE students ADD IF NOT EXISTS #{k} TEXT")  }# OK, this would ahve been cool but looking at the hash, it's not even needed. 
     #when you come back to this, make every attribute (key value in hash probably) a column
+    # sql = "INSERT INTO students (name, grade) VALUES(?,?)"
+    # student.map {|k,v| DB[:conn].execute("INSERT INTO students (#{k}) VALUES(?)", v)}
+    #the reason the previous two lines are wrong is that they create a new row for each value in the hash -- crete a single student first and add them as one row instead
+    new_kid = Student.new(student[:name], student[:grade])
+    new_kid.save
+    new_kid
   end
+
+
 
 end
 
